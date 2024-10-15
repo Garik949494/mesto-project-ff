@@ -1,7 +1,7 @@
 // импорты из других ветвей js
 import './index.css'; 
 import {initialCards} from './cards.js';
-import {createCard,likeCard,cardDelete} from  './cards.js'
+import {createCard,likeCard,cardDelete} from  './card.js'
 import {openModal,closeModal,closeEsc,clickClose} from './modal.js'
 
 
