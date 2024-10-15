@@ -1,11 +1,11 @@
+// импорты из других ветвей js
 import './index.css'; 
 import {initialCards} from './cards.js';
 import {createCard,likeCard,cardDelete} from  './cards.js'
 import {openModal,closeModal,closeEsc,clickClose} from './modal.js'
 
 
-// @todo: Темплейт карточки
-const cardTemplate =  document.querySelector('#card-template').content;
+
 
 // @todo: DOM узлы
 const placeList = document.querySelector('.places__list');
@@ -59,7 +59,8 @@ initialCards.forEach((element ) => {
 
 //вешаем событие по клику на кнопку добавление (открытие попапа)
 addBtn.addEventListener('click',()=>{
-   openModal(popupAddNew)
+   openModal(popupAddNew);
+   addCardForm.reset();
 });
 
 
@@ -73,7 +74,7 @@ popupEditBtn.addEventListener('click', () => {
 
 });
 
-// нашли все попапы циклом и добавили им плавности
+// нашли все попапы циклом на всем документе и добавили им плавности классом
 document.querySelectorAll('.popup').forEach( (pop) => {
    pop.classList.add('popup_is-animated');
    pop.addEventListener('click', clickClose);

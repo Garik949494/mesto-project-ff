@@ -8,6 +8,8 @@
  //  закрытие модального окна
 function closeModal(popup) {
     popup.classList.remove('popup_is-opened');
+    document.removeEventListener('keydown', closeEsc);
+
  };
 
  // закрытие модалки кнопкой escape

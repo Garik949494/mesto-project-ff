@@ -44,17 +44,17 @@ function createCard(title,img, deleteCallback,handlerlike, handlerOpen){
     cardContent.querySelector('.card__title').textContent = title;
 
   
-    const cardAvatar = cardContent.querySelector('.card__image');
-    cardAvatar.alt = title
-    cardAvatar.src = img
+    const cardImage = cardContent.querySelector('.card__image');
+    cardImage.alt = title
+    cardImage.src = img
 
 
-    cardAvatar.addEventListener('click', (evt) => {
+    cardImage.addEventListener('click', (evt) => {
      handlerOpen(evt);
     });
 
    return cardContent;
-}
+};
 
 
 // @todo: Функция удаления карточки
@@ -64,9 +64,7 @@ function cardDelete(cardContent){
 
 //функция тогла лайка
 const likeCard = (evt) => { 
-  if 
-  (evt.target.classList.contains('card__like-button')) {
-  evt.target.classList.toggle('card__like-button_is-active');
-}};
+   evt.target.classList.toggle('card__like-button_is-active');
+};
 
-export {createCard,likeCard,cardDelete}
+export {createCard,likeCard,cardDelete};
