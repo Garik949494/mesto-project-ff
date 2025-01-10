@@ -20,3 +20,23 @@
     line-height: 15px;
   }
 }
+
+
+.popup__input-error {
+  border-bottom: 1px solid #f00;
+}
+
+.popup__message-error {
+  color: #f00;
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  min-block-size: 30px;
+  opacity: 0;
+}
+
+.popup__message-error-activ {
+  opacity: 1;
+}

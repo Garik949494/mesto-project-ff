@@ -18,3 +18,18 @@
 .card__like-button:hover {
   opacity: 0.6;
 }
+
+
+.card__like {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.card__like-value {
+  color: inherit;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: normal;
+}

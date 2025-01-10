@@ -1,30 +1,80 @@
+import {removeCard, updateLikeValue} from './api.js';
+
+
 // @todo: Темплейт карточки
 const cardTemplate =  document.querySelector('#card-template').content;
 
+
+// cardInfo = {
+// title: , 
+// img: , 
+// likesList: , 
+// cardID: , 
+// isAuthor: , 
+// myID:}
+
+
+
 // @todo: Функция создания карточки
-function createCard(title,img, deleteCallback,handlerlike, handlerOpen){
-    const cardContent = cardTemplate.querySelector('.card').cloneNode(true);
-    
-    const deleteButton = cardContent.querySelector('.card__delete-button');  //присвоили переменной  deleteButton класс кнопки удаления
-    deleteButton.addEventListener('click', () => deleteCallback(cardContent));       // хочу присвоить переменной кнопки удаления событие удаления по клику через callback
-        
-    const cardLikeButton = cardContent.querySelector('.card__like-button'); // кнопка лайка
-    cardLikeButton.addEventListener('click', handlerlike);
+function createCard(cardParams, deleteCallback, handlerlike, handlerOpen){
+const cardContent = cardTemplate.querySelector('.card').cloneNode(true);
    
-   
-    cardContent.querySelector('.card__title').textContent = title;
-
+ const cardImage = cardContent.querySelector('.card__image');
+const cardDeleteButton = cardContent.querySelector('.card__delete-button');
+const cardLikeButton = cardContent.querySelector('.card__like-button'); // кнопка лайка
+const cardLikeValue = cardContent.querySelector('.card__like-value');   
+const cardId = cardParams.cardID;   
   
-    const cardImage = cardContent.querySelector('.card__image');
-    cardImage.alt = title
-    cardImage.src = img
+cardImage.alt = cardParams.title;
+cardImage.src = cardParams.img;
 
+cardLikeValue.textContent = cardParams.likesList.length;
+cardContent.querySelector('.card__title').textContent = cardParams.title;
 
-    cardImage.addEventListener('click', (evt) => {
-     handlerOpen(evt);
-    });
+//чек лайка
+if (cardParams.likesList.some( list => list._id === cardParams.myID)) {
+   cardLikeButton.classList.toggle('card__like-button_is-active');
+ };
 
-   return cardContent;
+ if (cardParams.isAuthor) {
+   cardDeleteButton.addEventListener('click', () => {
+     // удаляем с сервера и с разметки
+     removeCard(cardId)
+       .then( () => {
+         deleteCallback(cardContent);
+       })
+       .catch((err) => {
+         console.log(err);
+       });
+     }
+   ); 
+ } 
+ // иначе убрать возможность удаления
+ else {
+   deleteCallback(cardDeleteButton);
+ }
+    
+  
+ cardImage.addEventListener('click', (evt) => {
+   handlerOpen(evt);
+  });
+
+  cardLikeButton.addEventListener('click', (evt) => {
+   const isLiked = evt.target.classList.contains('card__like-button_is-active');
+   // изменяем кнопку
+   handlerlike(evt);
+   // вносим изменения на сервер и изменяем число лайков
+   updateLikeValue(cardId, isLiked)
+     .then( (data) => {
+       cardLikeValue.textContent = data.likes.length;
+     })
+     .catch((err) => {
+       console.log(err);
+     });
+ });
+
+   
+  return cardContent;
 };
 
 

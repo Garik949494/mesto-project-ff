@@ -1,3 +1,18 @@
+.profile__image-block {
+  width: 120px;
+  height: 120px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  margin: 0 29px 0 0;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -ms-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
 .profile__image {
   width: 120px;
   height: 120px;
@@ -7,6 +22,21 @@
   background-size: cover;
   background-position: center;
   margin: 0 29px 0 0;
+  transition: opacity .5s ease-in-out;
+}
+
+.profile__image:hover {
+  opacity: 0.2;
+}
+
+.profile__image-block:hover::after {
+  content: url('../../../images/edit-img.svg');
+  position: absolute;
+  inset-block: calc(100% / 2 - 13px);
+  inset-inline: 47px;
+  inline-size: 26px;
+  block-size: 26px;
+  z-index: 1;
 }
 
 @media screen and (max-width: 740px) {

@@ -4,21 +4,18 @@
     document.addEventListener('keydown', closeEsc);
  };
 
-
- //  закрытие модального окна
+//  закрытие модального окна
 function closeModal(popup) {
     popup.classList.remove('popup_is-opened');
     document.removeEventListener('keydown', closeEsc);
-
- };
+};
 
  // закрытие модалки кнопкой escape
 function closeEsc(evt) {
     if (evt.key === 'Escape') {
       const openedPopup  = document.querySelector('.popup_is-opened');
       closeModal(openedPopup);
-      
-    }
+   }
  };
 
  //// закрытие модалки по клику на крести и вне пределов картинки-попапа
@@ -29,4 +26,4 @@ function clickClose(evt) {
     } 
  };
  
- export {openModal,closeModal,closeEsc,clickClose};
+ export {openModal,closeModal,clickClose};
