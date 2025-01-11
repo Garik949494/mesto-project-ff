@@ -57,7 +57,7 @@ const avatarLink = avatarForm.elements['avatar-link'];
 
 ///попап картиинки и подписи снизу(альта)
 const popupContentImage = imagePopup.querySelector('.popup__image');
-const popupCaption = imagePopup.querySelector('.popup__caption');
+const imagePopupCaption = imagePopup.querySelector('.popup__caption');
 
 let myID;
 
@@ -89,16 +89,19 @@ Promise.all([getUser(), getCards()])
 
 function saveProfileForm(evt) {
    evt.preventDefault();
-   submitbuttonOpenEditProfilePopup.textContent = "Сохранение";
+   submitbuttonOpenEditProfilePopup.textContent = "Сохранение...";
    updateProfile(profileTitle.textContent,profileDescription.textContent)
-   .then( ()=>{
-      profileTitle.textContent = editProfileName.value;
-      profileDescription.textContent = editProfileDesc.value;
+   .then( (data)=>{
+      profileTitle.textContent = data.name;
+      profileDescription.textContent = data.about; 
       closeModal(popupEdit);
    })
    .catch((err) => {
-      console.Console.log(err);
+      console.log(err);
    })
+   .finally(() => {
+    submitbuttonOpenEditProfilePopup.textContent = "Сохраненить";
+  });
 }; 
 
 // слушатель на кнопку редактирования профиля
@@ -122,42 +125,26 @@ profileImage.addEventListener('click', () => {
    submitAvatarButton.textContent = 'Сохранение...';
    evt.preventDefault();
    updateAvatar(avatarLink.value)
-     .then( () => {
-       profileImage.src = avatarLink.value;
+     .then( (data) => {
+      profileImage.src = data.avatar;
        closeModal(popupAvatarChange);
      })
      .catch((err) => {
        console.log(err);
      })
+     .finally(() => {
+      submitAvatarButton.textContent = 'Сохранить';
+    });
  });
 
 editForm.addEventListener('submit',saveProfileForm);
 
-
-//вешаем на кнопку добавления функцию создания карточки и передаем ей аргументами колбеками остальные функции
-addCardForm.addEventListener('submit', (evt) =>{
-   evt.preventDefault();
-   const addNewElem = createCard(addNewCardName.value, addNewCardLink.value, cardDelete,likeCard,handleImage);
-   placeList.prepend(addNewElem);
-   closeModal(popupAddNew);
-});
-
-
-/*// @todo: Вывести карточки на страницу
-initialCards.forEach((element ) => {
-    const newCard = createCard(element.name,element.link, cardDelete,likeCard,handleImage)
-    placeList.append(newCard);
-});*/
-
-
 //вешаем событие по клику на кнопку добавление (открытие попапа)
 addBtn.addEventListener('click',()=>{
-   openModal(popupAddNew);
+  clearValidation(validationSettings, editForm);
+  openModal(popupAddNew);
    addCardForm.reset();
 });
-
-
-
 
 
 // нашли все попапы циклом на всем документе и добавили им плавности классом
@@ -168,7 +155,7 @@ document.querySelectorAll('.popup').forEach( (pop) => {
 
 
 ///функция сабмита
-function handleFormSubmit(evt) {
+function handleProfileFormSubmit(evt) {
    evt.preventDefault();
    profileTitle.textContent =  editProfileName.value;
    profileDescription.textContent = editProfileDesc.value;
@@ -176,28 +163,18 @@ function handleFormSubmit(evt) {
    closeModal(popupEdit);
 };
 
-editForm.addEventListener('submit', handleFormSubmit)
+editForm.addEventListener('submit', handleProfileFormSubmit)
 
 
 //функция открытия картинок
 function handleImage(evt) {
    popupContentImage.src = evt.target.src;
    popupContentImage.alt = evt.target.alt;
-   popupCaption.textContent = evt.target.alt; 
+   imagePopupCaption.textContent = evt.target.alt; 
    openModal(imagePopup);
  };
 
-
-
-
-
-
-
-
-
-
-
- addCardForm.addEventListener('submit', (evt) => {
+addCardForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   submitNewCardButton.textContent = 'Сохранение...';
 
@@ -213,9 +190,12 @@ function handleImage(evt) {
           myID: myID},
           cardDelete, likeCard, handleImage);
           placeList.prepend(newElem);
-      closeModal(popupNewCard);
+      closeModal(popupAddNew);
       })
       .catch((err) => {
         console.log(err);
       })
+      .finally(() => {
+        submitNewCardButton.textContent = 'Сохранить';
+      });
 });

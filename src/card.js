@@ -62,10 +62,11 @@ if (cardParams.likesList.some( list => list._id === cardParams.myID)) {
   cardLikeButton.addEventListener('click', (evt) => {
    const isLiked = evt.target.classList.contains('card__like-button_is-active');
    // изменяем кнопку
-   handlerlike(evt);
+   
    // вносим изменения на сервер и изменяем число лайков
    updateLikeValue(cardId, isLiked)
      .then( (data) => {
+      handlerlike(evt);
        cardLikeValue.textContent = data.likes.length;
      })
      .catch((err) => {
