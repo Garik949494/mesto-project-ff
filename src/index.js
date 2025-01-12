@@ -1,10 +1,9 @@
 // импорты из других ветвей js
 import './index.css';
-import {initialCards} from '../components/cards.js'; /// вывод карт из массива
-import {createCard, likeCard, cardDelete} from '../components/card.js'
-import {openModal, closeModal, clickClose} from '../components/modal.js'
-import {clearValidation, enableValidation} from '../components/validation.js';
-import {getCards, getUser, updateProfile, postCard, updateAvatar} from '../components/api.js';
+import {createCard, likeCard, cardDelete} from './components/card.js'
+import {openModal, closeModal, clickClose} from './components/modal.js'
+import {clearValidation, enableValidation} from './components/validation.js';
+import {getCards, getUser, updateProfile, postCard, updateAvatar} from './components/api.js';
 
 const validationSettings = {
     formSelector: '.popup__form',
