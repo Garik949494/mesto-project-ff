@@ -86,11 +86,10 @@ Promise.all([getUser(), getCards()])
     console.log(err);
 });
 
-
 function saveProfileForm(evt) {
    evt.preventDefault();
    submitbuttonOpenEditProfilePopup.textContent = "Сохранение...";
-   updateProfile(profileTitle.textContent,profileDescription.textContent)
+   updateProfile(editProfileName.value, editProfileDesc.value)
    .then( (data)=>{
       profileTitle.textContent = data.name;
       profileDescription.textContent = data.about; 
@@ -100,7 +99,7 @@ function saveProfileForm(evt) {
       console.log(err);
    })
    .finally(() => {
-    submitbuttonOpenEditProfilePopup.textContent = "Сохраненить";
+    submitbuttonOpenEditProfilePopup.textContent = "Сохранить";
   });
 }; 
 
@@ -109,9 +108,7 @@ popupEditBtn.addEventListener('click', () => {
    clearValidation(validationSettings, editForm);
    editProfileName.value = profileTitle.textContent;
    editProfileDesc.value = profileDescription.textContent
-
    openModal(popupEdit);  
-
 });
 
 
@@ -140,31 +137,17 @@ profileImage.addEventListener('click', () => {
 editForm.addEventListener('submit',saveProfileForm);
 
 //вешаем событие по клику на кнопку добавление (открытие попапа)
-addBtn.addEventListener('click',()=>{
-  clearValidation(validationSettings, editForm);
-  openModal(popupAddNew);
-   addCardForm.reset();
+addBtn.addEventListener('click', () => { 
+  addCardForm.reset(); // Сначала сбрасываем поля формы
+  clearValidation(validationSettings, addCardForm); // Затем вызываем валидацию
+  openModal(popupAddNew); 
 });
-
 
 // нашли все попапы циклом на всем документе и добавили им плавности классом
 document.querySelectorAll('.popup').forEach( (pop) => {
    pop.classList.add('popup_is-animated');
    pop.addEventListener('click', clickClose);
 });
-
-
-///функция сабмита
-function handleProfileFormSubmit(evt) {
-   evt.preventDefault();
-   profileTitle.textContent =  editProfileName.value;
-   profileDescription.textContent = editProfileDesc.value;
-
-   closeModal(popupEdit);
-};
-
-editForm.addEventListener('submit', handleProfileFormSubmit)
-
 
 //функция открытия картинок
 function handleImage(evt) {
